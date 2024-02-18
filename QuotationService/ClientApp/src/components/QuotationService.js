@@ -4,7 +4,10 @@ import styles from './QuotationService.module.css';
 export class QuotationService extends Component {
   render() {
     return (
+        
 <div className={styles.container}>
+
+
     <h1>Beräkna Offert</h1>
 
   <div className="p-8">

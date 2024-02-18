@@ -7,12 +7,13 @@ export class Layout extends Component {
 
   render() {
     return (
-      <div>
-        <NavMenu />
-        <Container>
-          {this.props.children}
-        </Container>
-      </div>
+
+          <div className='container customcontainer card shadow p-2'>
+            <NavMenu/>
+            <div className='card-body p-4'>
+              {this.props.children}
+            </div>
+          </div>
     );
   }
 }
