@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+using QuotationService.Data;
 namespace QuotationService
 {
     public class Program
@@ -8,7 +10,17 @@ namespace QuotationService
 
             // Add services to the container.
 
+            IConfigurationRoot Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            builder.Services.AddDbContext<DataContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                new MySqlServerVersion(new Version(8, 0, 34)),
+                b => b.MigrationsAssembly("QuotationService")));
+
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
@@ -16,6 +28,11 @@ namespace QuotationService
             if(!app.Environment.IsDevelopment()) {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+
+            if(app.Environment.IsDevelopment()) {
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

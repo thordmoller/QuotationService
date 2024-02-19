@@ -1,3 +1,4 @@
+import CityList from "./components/CityList";
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
@@ -19,6 +20,10 @@ const AppRoutes = [
   {
     path: '/offert',
     element: <QuotationService />
+  },
+  {
+    path: '/citylist',
+    element: <CityList />
   }
 ];
 
