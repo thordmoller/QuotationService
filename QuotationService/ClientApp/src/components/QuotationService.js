@@ -7,6 +7,8 @@ export class QuotationService extends Component {
         super(props);
         this.state = {
           cities: [],
+          selectedCity: 0,
+          services: [],
           loading: true,
         };
       }
@@ -17,7 +19,7 @@ export class QuotationService extends Component {
     
       fetchCities = async () => {
         try {
-          const response = await fetch('cities');
+          const response = await fetch('cities/names');
           if (!response.ok) {
             throw new Error('Failed to fetch data');
           }
@@ -29,9 +31,33 @@ export class QuotationService extends Component {
         }
       };
 
+      fetchServices = async (cityId) => {
+        try {
+          const response = await fetch(`cities/${cityId}/services`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch services');
+          }
+          const _services = await response.json();
+          this.setState({ services: _services });
+        } catch (error) {
+          console.error('Error fetching services:', error);
+        }
+      };
+
+      handleCityChange = async (e) => {
+        const _selectedCity = e.target.value;
+        this.setState({ selectedCity: _selectedCity });
+        console.log(_selectedCity);
+
+        await this.fetchServices(_selectedCity);
+
+        console.log(this.state.services[0].name)
+
+      };
+
   render() {
 
-    const { cities, loading } = this.state;
+    const { cities, services, selectedCity, loading } = this.state;
     
     
     return (
@@ -43,10 +69,10 @@ export class QuotationService extends Component {
 
   <div className="p-8">
       <label htmlFor="stad" className="mt-4">Stad:</label>
-      <select id="city" className="form-select px-2 py-2 ">
+      <select id="city" onChange={this.handleCityChange} className="form-select px-2 py-2 ">
 
         {cities.map((city) => (
-            <option key={city.id} value={city.name}>
+            <option key={city.id} value={city.id}>
                 {city.name}
             </option>
         ))}
@@ -56,20 +82,13 @@ export class QuotationService extends Component {
       <input type="number" id="square-meters" className="form-control p-2" min="0" />
 
       <label htmlFor="optional-services" className="font-bold mt-4">Övriga tjänster:</label>
-
+      
       <div className="mt-2">
         <div className="form-check">
-          <input type="checkbox" id="windowCleaning" name="windowCleaning" className="form-check-input" />
-          <label htmlFor="windowCleaning" className="form-check-label">Fönsterputsning</label>
-        </div>
-        <div className="form-check">
-          <input type="checkbox" id="balconyCleaning" name="balconyCleaning" className="form-check-input" />
-          <label htmlFor="balconyCleaning" className="form-check-label">Balkongstädning</label>
-        </div>
-        <div className="form-check">
-          <input type="checkbox" id="trashRemoval" name="trashRemoval" className="form-check-input" />
-          <label htmlFor="trashRemoval" className="form-check-label">Bortforsling av skräp</label>
-        </div>
+        {services.length > 0 && services.map((service) => (
+            <input type="checkbox" key={service.id} id={service.id} name={service.name} className="form-check-input" />
+        ))}
+      </div>
       </div>
 
     <div className="quote-result mt-4" id="quote-result">

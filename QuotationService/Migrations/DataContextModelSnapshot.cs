@@ -18,21 +18,6 @@ namespace QuotationService.Migrations
                 .HasAnnotation("ProductVersion", "6.0.27")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("CityService", b =>
-                {
-                    b.Property<int>("CitiesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServicesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CitiesId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("CityService");
-                });
-
             modelBuilder.Entity("QuotationService.City", b =>
                 {
                     b.Property<int>("Id")
@@ -40,7 +25,6 @@ namespace QuotationService.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Rate")
@@ -57,8 +41,10 @@ namespace QuotationService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
@@ -66,22 +52,25 @@ namespace QuotationService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("CityService", b =>
+            modelBuilder.Entity("QuotationService.Service", b =>
                 {
-                    b.HasOne("QuotationService.City", null)
-                        .WithMany()
-                        .HasForeignKey("CitiesId")
+                    b.HasOne("QuotationService.City", "City")
+                        .WithMany("Services")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuotationService.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("QuotationService.City", b =>
+                {
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }
