@@ -20,6 +20,7 @@ export class QuotationService extends Component {
     await this.fetchCities();
   }
 
+  //denna metod hämtar de tillgängliga städerna för att fylla drop down menyn
   fetchCities = async () => {
     try {
       const response = await fetch('cities/names');
@@ -40,6 +41,7 @@ export class QuotationService extends Component {
     }
   };
 
+  //Denna hämtar valfria tjänster baserat på stad
   fetchServices = async (cityId) => {
     try {
       const response = await fetch(`cities/${cityId}/services`);
@@ -59,6 +61,7 @@ export class QuotationService extends Component {
     }
   };
 
+  //denna handler skickar formulärets information till API'n och får tillbaka priset som lagras och visas
   handleSubmit = async (e) => {
     const dataToSend =  {
         "cityId": this.state.selectedCity,
@@ -77,6 +80,7 @@ export class QuotationService extends Component {
     this.setState({totalPrice: myData});
   };
 
+  //varje gång något i formuläret ändras så uppdaterar den här handlern useStatesen
   handleChange = async (event) => {
     const { name, value, checked, id } = event.target;
 
@@ -93,7 +97,7 @@ export class QuotationService extends Component {
             }
         });
         this.setState({services: arr}, () => {
-            this.handleSubmit(event);
+            this.handleSubmit(event);   //kallar på handlesubmit för att skicka varje gång något ändras
         });
     } else{
         this.setState({[name]: value}, () => {
@@ -132,7 +136,7 @@ export class QuotationService extends Component {
               Kvadratmeter:
             </label>
             <input type="number" defaultValue={this.state.squareMeters} id="squareMeters" name="squareMeters" className="form-control p-2" min="0" />
-            <label htmlFor="optional-services" className="font-bold mt-4">
+            <label htmlFor="optional-services" className=" mt-4">
               Övriga tjänster:
             </label>
             <div className="mt-2">
