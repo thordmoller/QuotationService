@@ -30,20 +30,15 @@ public class CitiesController:ControllerBase
     };
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<City>> GetCityById(int id) {
-        var city = await _context.Cities
-            .Include(c => c.Services)
-            .FirstOrDefaultAsync(c => c.Id == id);
-        return Ok(city);
+    public ActionResult GetCityById(int id) {
+
+        return Ok(_cityService.GetCityById(id));
     }
 
     [HttpGet("names")]
-    public ActionResult<IEnumerable<CityNameDTO>> GetCityNames() {
-        var cities = _context.Cities
-            .Select(c => new CityNameDTO { Id = c.Id, Name = c.Name })
-            .ToList();
+    public ActionResult GetCityNames() {
 
-        return Ok(cities);
+        return Ok(_cityService.GetCityNames());
     }
 
     [HttpGet("{cityId}/services")]
@@ -51,13 +46,5 @@ public class CitiesController:ControllerBase
         var service = _cityService.GetCityServices(cityId);
 
         return Ok(service);
-    }
-
-
-
-
-    [HttpGet]
-    public IActionResult Get() {
-        return Ok(_cities);
     }
 }

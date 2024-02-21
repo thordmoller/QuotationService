@@ -9,7 +9,7 @@ export class QuotationService extends Component {
       services: [],
       loadingCities: true,
       loadingServices: false,
-      
+
       selectedCity: 0,
       squareMeters: 40,
       totalPrice: 0
@@ -93,7 +93,6 @@ export class QuotationService extends Component {
             }
         });
         this.setState({services: arr}, () => {
-            console.log(event)
             this.handleSubmit(event);
         });
     } else{
@@ -107,7 +106,6 @@ export class QuotationService extends Component {
       this.setState({ loadingServices: true, services: [] });
       await this.fetchServices(value);
     }
-    console.log(this.state)
 };
 
   

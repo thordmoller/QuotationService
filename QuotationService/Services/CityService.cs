@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotationService.Data;
 
@@ -42,6 +43,21 @@ namespace QuotationService
             }
 
             return city.Rate;
+        }
+
+        public async Task<City> GetCityById(int id) {
+            var city = await _context.Cities
+                .Include(c => c.Services)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            return city;
+        }
+
+        public IEnumerable<CityNameDTO> GetCityNames() {
+            var cities = _context.Cities
+                .Select(c => new CityNameDTO { Id = c.Id, Name = c.Name })
+                .ToList();
+
+            return cities;
         }
     }
 
