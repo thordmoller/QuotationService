@@ -53,6 +53,7 @@ export class QuotationService extends Component {
       const alteredData = data.map(service => ({
         ...service,
         checked: false
+
     }));
       this.setState({ services: alteredData, loadingServices: false });
     } catch (error) {
@@ -92,8 +93,10 @@ export class QuotationService extends Component {
                 let temp = {...service};
                 temp.checked = checked;
                 arr.push(temp)
+                return temp;
             } else{
                 arr.push(service)
+                return service;
             }
         });
         this.setState({services: arr}, () => {
