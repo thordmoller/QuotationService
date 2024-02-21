@@ -78,7 +78,7 @@ export class QuotationService extends Component {
   };
 
   handleChange = async (event) => {
-    const { name, value, type, checked, id } = event.target;
+    const { name, value, checked, id } = event.target;
 
     if (name === 'service') {
         //uppdatera checkboxens status
