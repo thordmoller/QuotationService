@@ -23,7 +23,7 @@ namespace QuotationService.Services
 
             decimal totalAdditionalServicesPrice = 0;
             foreach(var service in quote.services) {
-                if(service.IsChecked) {
+                if(service.Checked) {
                     decimal serviceRate = _serviceService.GetServicePrice(service.Id);
                     totalAdditionalServicesPrice += serviceRate;
                 }
