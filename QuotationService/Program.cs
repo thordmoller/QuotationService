@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using QuotationService.Data;
+using QuotationService.Services;
+
 namespace QuotationService
 {
     public class Program
@@ -18,6 +20,10 @@ namespace QuotationService
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
                 new MySqlServerVersion(new Version(8, 0, 34)),
                 b => b.MigrationsAssembly("QuotationService")));
+
+            builder.Services.AddScoped<CityService, CityService>();
+            builder.Services.AddScoped<ServiceService, ServiceService>();
+            builder.Services.AddScoped<QuoteService, QuoteService>();
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddSwaggerGen();

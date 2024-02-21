@@ -2,16 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotationService.Data;
-using QuotationService.Services;
 
 [Route("[controller]")]
 [ApiController]
 public class CitiesController:ControllerBase
 {
+    private readonly CityService _cityService;
     private readonly DataContext _context;
 
-    public CitiesController(DataContext context) {
+    public CitiesController(DataContext context, CityService cityService) {
         _context = context;
+        _cityService = cityService;
     }
     private static readonly IEnumerable<City> _cities = new[]
     {
@@ -46,18 +47,10 @@ public class CitiesController:ControllerBase
     }
 
     [HttpGet("{cityId}/services")]
-    public ActionResult<IEnumerable<ServiceDTO>> GetCityServices(int cityId) {
-        var city = _context.Cities
-            .Include(c => c.Services)
-            .FirstOrDefault(c => c.Id == cityId);
+    public ActionResult GetCityServices(int cityId) {
+        var service = _cityService.GetCityServices(cityId);
 
-        if(city == null) {
-            return NotFound();
-        }
-
-        var services = city.Services.Select(o => new ServiceDTO { Id = o.Id, Name = o.Name, Price = o.Price }).ToList();
-
-        return Ok(services);
+        return Ok(service);
     }
 
 
