@@ -101,7 +101,9 @@ export class QuotationService extends Component {
         });
     } else{
         this.setState({[name]: value}, () => {
+          if (name !== 'squareMeters' || (name === 'squareMeters' && value !== '')) {
             this.handleSubmit(event);
+        }
         })
     }
 
