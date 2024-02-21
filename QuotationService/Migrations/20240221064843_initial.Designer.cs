@@ -10,7 +10,7 @@ using QuotationService.Data;
 namespace QuotationService.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240220004023_initial")]
+    [Migration("20240221064843_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,8 +29,8 @@ namespace QuotationService.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 

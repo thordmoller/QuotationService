@@ -18,6 +18,13 @@ code {
   margin: 8px auto;
 }
 
+#total-price {
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  justify-content: right;
+}
+
 @media (max-width: 1024px) {
   .customcontainer {
     border: none;

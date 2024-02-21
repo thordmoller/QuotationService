@@ -27,8 +27,8 @@ namespace QuotationService.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 

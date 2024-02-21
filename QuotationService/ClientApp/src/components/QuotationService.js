@@ -154,8 +154,8 @@ export class QuotationService extends Component {
             </div>
           </form>
 
-          <div className="quote-result mt-4" id="quote-result">
-            Pris: <span id="total-price" className="font-bold">{this.state.totalPrice} kr</span>
+          <div className="quote-result rounded  mt-5" id="quote-result">
+            <span id="total-price" className='m-2'>Pris: <span className='text-success px-2'>{this.state.totalPrice}</span> :-</span>
           </div>
         </div>
       </div>
