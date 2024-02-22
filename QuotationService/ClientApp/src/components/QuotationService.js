@@ -64,21 +64,30 @@ export class QuotationService extends Component {
 
   //denna handler skickar formulärets information till API'n och får tillbaka priset som lagras och visas
   handleSubmit = async (e) => {
-    const dataToSend =  {
-        "cityId": this.state.selectedCity,
-        "squareMeters": this.state.squareMeters,
-        "services": this.state.services
+    try{
+      const dataToSend =  {
+          "cityId": this.state.selectedCity,
+          "squareMeters": this.state.squareMeters,
+          "services": this.state.services
+      }
+      const response = await fetch('quote', {
+        method: 'POST',
+        headers: {
+          Accept: 'text/json',
+          'Content-Type': 'text/json'
+        },
+        body: JSON.stringify(dataToSend)
+      })
+
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch quote data');
     }
-    const response = await fetch('quote', {
-      method: 'POST',
-      headers: {
-        Accept: 'text/json',
-        'Content-Type': 'text/json'
-      },
-      body: JSON.stringify(dataToSend)
-    })
-    const myData = await response.json();
-    this.setState({totalPrice: myData});
+      const myData = await response.json();
+      this.setState({totalPrice: myData});
+  } catch(error){
+      console.log(error);
+  }
   };
 
   //varje gång något i formuläret ändras så uppdaterar den här handlern useStatesen
@@ -143,7 +152,7 @@ export class QuotationService extends Component {
             <input type="number" defaultValue={this.state.squareMeters} id="squareMeters" name="squareMeters" className="form-control p-2" min="0" />
             <label htmlFor="optional-services" className=" mt-4">
               Övriga tjänster:
-            </label>
+            </label>a
             <div className="mt-2">
               {loadingServices ? (
                 <p>Laddar...</p>
